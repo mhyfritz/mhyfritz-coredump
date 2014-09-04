@@ -31,6 +31,7 @@ body {
 
 #main {
   min-width: 500px;
+  max-width: 960px;
   width: 50%;
   margin: 25px auto;
   padding-top: 80px;
