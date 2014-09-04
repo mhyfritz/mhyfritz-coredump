@@ -17,7 +17,7 @@ parser.add_argument('-o', '--output', metavar='DIR', dest='output_dir',
 parser.add_argument('-e', '--ext', metavar='STR', dest='fn_exts', nargs='+',
                     help='additional file extensions to consider', default=[])
 parser.add_argument('-r', '--root', metavar='URL', dest='root_url',
-                   help='root URL; default: /blog', default='/')
+                   help='root URL; default: /', default='/')
 
 args = parser.parse_args()
 md_exts = set(args.fn_exts + ['md', 'markdown'])
