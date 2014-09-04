@@ -99,6 +99,7 @@ for p in posts:
         os.makedirs(os.path.dirname(html_fn))
 
     cmd = r'pandoc --standalone --to=html --mathjax ' \
+           + '--filter pandoc-citeproc ' \
            + '--bibliography=citations.bib {} '.format(p['file']) \
            + '| python scripts/convert_pandoc.py "{}" "{}" > {}'.format(p['meta']['post_title'], args.root_url, html_fn)
 
