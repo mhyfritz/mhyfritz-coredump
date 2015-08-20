@@ -7,7 +7,7 @@ style_re = re.compile(r'<style.+?</style>', re.DOTALL)
 script_re = re.compile(r'<script.+?</script>', re.DOTALL)
 body_re = re.compile(r'<body>\s+(.+)</body>', re.DOTALL)
 
-def process(f, title, root_url):
+def process(f, title, root_url, meta_description):
     with open('templates/common.html') as f_template:
         common_template = Template(f_template.read())
 
@@ -31,11 +31,12 @@ def process(f, title, root_url):
                                   root_url=root_url,
                                   content=pandoc_body,
                                   style=pandoc_style + '\n' + Markup(r'<link rel="stylesheet" href="{}/static/style.css" />'.format('' if root_url == '/' else root_url)),
+                                  meta_description=meta_description,
                                   head_script=pandoc_script)
 
 if __name__ == '__main__':
-    usage = 'Usage: {} <title> <root_url>'.format(sys.argv[0])
-    if len(sys.argv) != 3:
+    usage = 'Usage: {} <title> <root_url> <meta_description>'.format(sys.argv[0])
+    if len(sys.argv) != 4:
         print(usage, file=sys.stderr)
         sys.exit(2)
-    print(process(sys.stdin, sys.argv[1], sys.argv[2]))
+    print(process(sys.stdin, sys.argv[1], sys.argv[2], sys.argv[3]))

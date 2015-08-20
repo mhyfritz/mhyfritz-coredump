@@ -51,7 +51,7 @@ shutil.copytree('static', os.path.join(args.output_dir, 'static'))
 date_fmt = '%Y-%m-%d %H:%M'
 for md_fn in md_fns:
     md_meta = extract_metadata(md_fn)
-    if not md_meta:
+    if not md_meta or not md_meta['is_public']:
         continue
     d = datetime.strptime(md_meta['post_date'], date_fmt)
     dest_dir = os.path.join(d.strftime('%Y'),
@@ -74,6 +74,7 @@ with open(os.path.join(args.output_dir, 'index.html'), 'w') as f:
     print(index_template.render(title='Blog',
                                 root_url=args.root_url,
                                 posts=posts,
+                                meta_description="Ramblings of Markus Hsi-Yang Fritz, a.k.a. My Blog.",
                                 style=Markup(r'<link rel="stylesheet" href="{}/static/style.css" />'.format('' if args.root_url == '/' else args.root_url))),
           file=f)
 
@@ -101,7 +102,10 @@ for p in posts:
     cmd = r'pandoc --standalone --to=html --mathjax ' \
            + '--filter pandoc-citeproc ' \
            + '--bibliography=citations.bib {} '.format(p['file']) \
-           + '| python scripts/convert_pandoc.py "{}" "{}" > {}'.format(p['meta']['post_title'], args.root_url, html_fn)
+           + '| python scripts/convert_pandoc.py "{}" "{}" "{}"> {}'.format(p['meta']['post_title'], 
+                                                                            args.root_url,
+                                                                            p['meta']['post_summary'],
+                                                                            html_fn)
 
     print(cmd)
     os.system(cmd)
