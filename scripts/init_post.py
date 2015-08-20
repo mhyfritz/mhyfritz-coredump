@@ -16,6 +16,7 @@ post_date:      {date}
 post_tags:      [<FIXME>]
 post_slug:      <FIXME>
 post_summary:   <FIXME>
+is_public:      true
 ---
 
 Post Title
