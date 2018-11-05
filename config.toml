@@ -1,0 +1,11 @@
+baseURL = "http://mhyfritz.com/blog/"
+languageCode = "en-us"
+title = "mhyfritz coredump"
+theme = "tale"
+pygmentsCodeFences = true
+pygmentsStyle = "tango"
+canonifyurls = true
+[Author]
+    name = "Markus Hsi-Yang Fritz"
+[permalinks]
+  posts = "/:year/:month/:day/:slug/"

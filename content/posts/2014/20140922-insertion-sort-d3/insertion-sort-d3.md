@@ -1,15 +1,12 @@
 ---
-post_title:     Interactive visualization of insertion sort
-post_author:    Markus Hsi-Yang Fritz
-post_date:      2014-09-22 22:01
-post_tags:      [D3.js, JavaScript, Visualization, Algorithm]
-post_slug:      interactive-insertion-sort
-post_summary:   In this post we'll take a look at an interactive, animated D3.js visualization of the insertion sort algorithm.
-is_public:      true
+author: Markus Hsi-Yang Fritz
+title: Interactive visualization of insertion sort
+slug: interactive-insertion-sort
+date: 2014-09-22T22:01:00+01:00
+summary: In this post we'll take a look at an interactive, animated D3.js visualization of the insertion sort algorithm.
+tags: [D3.js, JavaScript, Visualization, Algorithm]
+draft: true
 ---
-
-Interactive visualization of insertion sort
-===========================================
 
 When it comes to visualizing algorithms, sorting is probably
 the class of algorithms people have thought about the most.
@@ -84,4 +81,5 @@ at this and if you're interested, grab the code in its current form from
 
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-<script src="insertion-sort-d3.js"></script>
+<link href="/css/insertion-sort-d3.css" rel="stylesheet">
+<script src="/js/insertion-sort-d3.js"></script>

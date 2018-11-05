@@ -1,15 +1,12 @@
 ---
-post_title:     Reactive data visualization with D3.js and Meteor
-post_author:    Markus Hsi-Yang Fritz
-post_date:      2014-08-16 11:34
-post_tags:      [D3.js, Meteor, JavaScript, Visualization]
-post_slug:      reactive-d3-meteor
-post_summary:   A tutorial in which we'll use the Meteor framework and D3.js library to create a reactive SVG chart that automatically updates when the underlying data changes.
-is_public:      true
+author: Markus Hsi-Yang Fritz
+title: Reactive data visualization with D3.js and Meteor
+slug: reactive-d3-meteor
+date: 2014-08-16T11:34:00+01:00
+summary: A tutorial in which we'll use the Meteor framework and D3.js library to create a reactive SVG chart that automatically updates when the underlying data changes.
+tags: [D3.js, Meteor, JavaScript, Visualization]
+draft: true
 ---
-
-Reactive data visualization with D3.js and Meteor
-=================================================
 
 A while back I wrote a web dashboard for my group at work that displays
 stats on disk and compute cluster usage. I did not bake in any
@@ -43,22 +40,22 @@ through the code. Assuming that you have
 let's create a new `Meteor` project (BTW, you can also grab the code from
 [github](https://github.com/mhyfritz/reactive-d3-meteor)).
 
-~~~bash
+```bash
 $ meteor create reactive-d3-meteor
 $ cd reactive-d3-meteor
 $ ls -1
 reactive-d3-meteor.css
 reactive-d3-meteor.html
 reactive-d3-meteor.js
-~~~
+```
 
 As already mentioned, we'll be using `D3.js`. It's an officially supported
 third party [package](http://docs.meteor.com/#packages), 
 so we can install it as follows:
 
-~~~bash
+```bash
 $ meteor add d3
-~~~
+```
 
 We'll also be using [`Underscore.js`](http://underscorejs.org/).
 At the time of writing (`Meteor` version 0.8.3),
@@ -66,14 +63,14 @@ this library is automatically included in all projects. However,
 as per official recommendation, we'll still explicitly add it as the
 default `Underscore.js` will be removed at some point in the future.
 
-~~~bash
+```bash
 $ meteor add underscore
-~~~
+```
 
 For starters, let's create a simple HTML file. Open `reactive-d3-meteor.html`
 and edit it as follows:
 
-~~~html
+```html
 <head>
   <title>reactive-d3-meteor</title>
 </head>
@@ -85,7 +82,7 @@ and edit it as follows:
 <template name="vis">
   <div id="circles"></div>
 </template>
-~~~
+```
 
 Not much going on here. The only part worth pointing out is the
 [`Spacebars`](https://github.com/meteor/meteor/blob/devel/packages/spacebars/README.md)
@@ -96,7 +93,7 @@ into which we'll inject an SVG tag later on. That being said, let's check out
 want to run or read it right away. Otherwise, you might want to skip it for now
 and read the explanation of the individual parts that follows.
 
-~~~javascript
+```javascript
 var Circles = new Meteor.Collection('circles');
 
 if (Meteor.isServer) {
@@ -144,7 +141,7 @@ if (Meteor.isClient) {
     });
   };
 }
-~~~
+```
 
 Before breaking things down, a few words on file structure. 
 We only use a single JavaScript file, i.e. we dump 
@@ -163,16 +160,16 @@ storing sensitive data. On a related note,  make sure to
 on the `autopublish` and `insecure` packages which I won't 
 get into. I'm digressing. Let's move on.
 
-~~~javascript
+```javascript
 var Circles = new Meteor.Collection('circles');
-~~~
+```
 
 We declare a collection with name *circles* 
 and assign it to a variable *Circles*.
 This collection will hold the data points for the chart.
 Next up, server-side code:
 
-~~~javascript
+```javascript
 if (Meteor.isServer) {
   Meteor.startup(function () {
     if (Circles.find().count() === 0) {
@@ -185,7 +182,7 @@ if (Meteor.isServer) {
     Circles.update({}, {data: newData});
   }, 2000);
 }
-~~~
+```
 
 As mentioned, we use a single file for both server- and client-side
 code. For this setup, `Meteor` provides the flags
@@ -206,13 +203,13 @@ the client logic in a `Meteor.isClient` block. Also, before
 we can interact with the template code, we have to wait
 till it's rendered. For this we use `Template.vis.rendered`.
 
-~~~javascript
+```javascript
 if (Meteor.isClient) {
   Template.vis.rendered = function () {
     ...
   };
 }
-~~~
+```
 
 We then declare a couple of variables:
 `svg` will reference the SVG container,
@@ -220,23 +217,23 @@ We then declare a couple of variables:
 `x` is a scale function we'll use for spatially
 arranging the circles inside the container.
 
-~~~javascript
+```javascript
 var svg, width = 500, height = 75, x;
-~~~
+```
 
 Next, we inject an SVG element into `<div id="circles">` and set
 its dimensions using `D3`.
 
-~~~javascript
+```javascript
 svg = d3.select('#circles').append('svg')
   .attr('width', width)
   .attr('height', height);
-~~~
+```
 
 Let's leave the SVG drawing code for later and skip to the last
 bit of code in the file:
 
-~~~javascript
+```javascript
 Circles.find().observe({
   added: function () {
     x = d3.scale.ordinal()
@@ -246,7 +243,7 @@ Circles.find().observe({
   },
   changed: _.partial(drawCircles, true)
 });
-~~~
+```
 
 This really is the most important part: hooking up
 `Meteor`'s reactivity to `D3` calls.
@@ -278,7 +275,7 @@ function.
 
 Let's now take a look at `drawCircles`. 
 
-~~~javascript
+```javascript
 var drawCircles = function (update) {
   var data = Circles.findOne().data;
   var circles = svg.selectAll('circle').data(data);
@@ -290,8 +287,8 @@ var drawCircles = function (update) {
     circles = circles.transition().duration(1000);
   }
   circles.attr('r', function (d) { return d; });
-  };
-~~~
+};
+```
 
 In a bit more detail. First off, we grab the current sequence
 of data points from the collection, select all SVG circles
@@ -311,11 +308,11 @@ could very well delete it.  Instead though, let's add a rule to change the
 color of the circles, and let's make that color
 [*rebeccapurple*](http://meyerweb.com/eric/thoughts/2014/06/19/rebeccapurple/).
 
-~~~css
+```css
 svg circle {
   fill: #663399;
 }
-~~~
+```
 
 Done and dusted. Start a `Meteor` server (`$ meteor`),
 open a web browser and point it to `localhost:3000`.
@@ -330,4 +327,4 @@ Later.
 
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-<script src="reactive-d3-meteor.js"></script>
+<script src="/js/reactive-d3-meteor.js"></script>

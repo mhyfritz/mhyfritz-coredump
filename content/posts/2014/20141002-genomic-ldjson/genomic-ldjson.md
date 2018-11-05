@@ -1,15 +1,12 @@
 ---
-post_title:     A line delimited JSON format for genomic data
-post_author:    Markus Hsi-Yang Fritz
-post_date:      2014-10-02 18:40
-post_tags:      [Genomics, Science]
-post_slug:      genomic-ldjson
-post_summary:   A proposal for a small, flexible JSON format for positional genome data and some ideas about a tool ecosystem around it. 
-is_public:      false
+author: Markus Hsi-Yang Fritz
+title: A newline delimited JSON format for genomic data
+slug: genomic-ndjson
+date: 2014-10-02T18:40:00+01:00
+summary: A proposal for a small, flexible JSON format for positional genome data and some ideas about a tool ecosystem around it. 
+tags: [Genomics, Science, JSON]
+draft: true
 ---
-
-A line delimited JSON format for genomic data
-=============================================
 
 Genomic data formats are a mess.
 Idiosyncratic flat files that need custom tooling and are a pain
@@ -37,8 +34,8 @@ an incredidbly popular format there already exists
 a huge tooling ecosystem around it.
 We want "atomic" records that we stream
 and manipulate, e.g. via pipes on a
-command line. This is were line-delimited
-JSON (LDJSON) comes in: we simply encode
+command line. This is were newline-delimited
+JSON (ndjson) comes in: we simply encode
 every record as one independent JSON object
 per line. 
 
@@ -65,11 +62,11 @@ So our full `GOON` specification boils down to this:
 
 Simple. Here are few examples of records that fulfill the spec:
 
-~~~
+```
 {"chrom": "chr1", "start": 1, "end": 10, "id": "foo"}
 
 {"name": "chr1", "pos": 20, "scores": [5,2,7]}
-~~~
+```
 
 
 * tabix
@@ -95,7 +92,7 @@ Technically one could think of automating this, but the problem
 are list columns which have SQL type *longblob* and can
 contain integers, floats, strings...
 
-~~~bash
+```bash
 ucsc_to_ldj.py --file hg19.ucsc.gencode.v19.txt.gz \
                --intcols bin txStart txEnd cdsStart cdsEnd \
                          exonCount score \
@@ -108,13 +105,13 @@ ucsc_to_ldj.py --file hg19.ucsc.encode.tfbs.v3.txt.gz \
                --intlistcols expNums expScores \
     | gzip \
     > hg19.ucsc.encode.tfbs.v3.ldj.gz
-~~~
+```
 
 For indexing, we need to sort the files. We could have sorted the
 table files first, but obviously we need also a way to sort *GOON*
 files directly. 
 
-~~~bash
+```bash
 zcat hg19.ucsc.gencode.v19.ldj.gz \
     | goontools sort -s chrom -b txStart \
     | bgzip \
@@ -124,13 +121,13 @@ zcat hg19.ucsc.encode.tfbs.v3.ldj.gz \
     | goontools sort -s chrom -b chromStart \
     | bgzip \
     > hg19.ucsc.encode.tfbs.v3.srt.ldj.gz
-~~~
+```
 
 Before continuing with the `GOON` files, let's also prep
 the table files for `tabix` so we can compare file sizes
 and execution times. Analogously, we sort and bgzip.
 
-~~~bash
+```bash
 zcat hg19.ucsc.gencode.v19.txt.gz | head -1 > hg19.ucsc.gencode.v19.srt.txt
 zcat hg19.ucsc.gencode.v19.txt.gz \
     | sed 1d | sort -s -k3,3 -k5,5n \
@@ -142,30 +139,27 @@ zcat hg19.ucsc.encode.tfbs.v3.txt.gz \
     | sed 1d | sort -s -k2,2 -k3,3n \
     >> hg19.ucsc.encode.tfbs.v3.srt.txt
 bgzip hg19.ucsc.encode.tfbs.v3.srt.txt
-~~~
+```
 
 Now that we have sorted, bgzip compressed files,
 we can index those. 
 
-~~~bash
+```bash
 tabix -s 3 -b 5 -e 6 -0 hg19.ucsc.gencode.v19.srt.txt.gz
 tabix -s 2 -b 3 -e 4 -0 hg19.ucsc.encode.tfbs.v3.srt.txt.gz
 
 goontools index -s chrom -b txStart -0 -r hg19.ucsc.gencode.v19.srt.ldj.gz
 goontools index -s chrom -b chromStart -e chromEnd -0 -r hg19.ucsc.encode.tfbs.v3.srt.ldj.gz
-~~~
+```
 
-~~~bash
+```bash
 # for retrival, tabix uses 1-based, closed coordinates
 tabix hg19.ucsc.gencode.v19.srt.txt.gz chr1:11869-11869
 
 goontools view hg19.ucsc.gencode.v19.srt.ldj.gz chr1:11868-11869
 goontools view -1 -c hg19.ucsc.gencode.v19.srt.ldj.gz chr1:11869-11869
-~~~
-
+```
 
 As mentioned before, JSON is a bloated format as every record stores all
 key names. Compression obviously helps here, and as shown in the figure below,
 the increase in file sizes isn't too bad.
-
-
