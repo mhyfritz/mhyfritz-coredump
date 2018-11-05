@@ -5,7 +5,7 @@ slug: reactive-d3-meteor
 date: 2014-08-16T11:34:00+01:00
 summary: A tutorial in which we'll use the Meteor framework and D3.js library to create a reactive SVG chart that automatically updates when the underlying data changes.
 tags: [D3.js, Meteor, JavaScript, Visualization]
-draft: true
+draft: false
 ---
 
 A while back I wrote a web dashboard for my group at work that displays

@@ -5,6 +5,7 @@ theme = "tale"
 pygmentsCodeFences = true
 pygmentsStyle = "tango"
 canonifyurls = true
+googleAnalytics = "UA-54163720-1"
 [Author]
     name = "Markus Hsi-Yang Fritz"
 [permalinks]
