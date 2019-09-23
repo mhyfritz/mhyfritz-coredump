@@ -65,7 +65,7 @@ Below is such an app I put together with the help of
 The only non-obvious thing to point out is that you can
 drag the bars around, arranging them as you see fit. Have fun!
 
-<div class="vis"></div>
+<div class="vis" style="overflow: auto;"></div>
 
 There certainly is room for improvement. I'll probably
 add some sort of indicator of the loop variables to bring

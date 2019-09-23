@@ -32,7 +32,7 @@ Before diving into the code, let's take a look at the toy chart we'll create.
 In a nutshell, a sequence of integers gets visually mapped to SVG circles, the
 sequence gets shuffled every few seconds, the chart updates accordingly.
 
-<div class="vis"></div>
+<div class="vis" style="overflow: auto;"></div>
 
 So now that you are all pumped up by those pulsating circles, let's step
 through the code. Assuming that you have
@@ -344,7 +344,7 @@ In fact, you might want to open multiple browser windows and
 see how the chart is synchronized everywhere.
 And here's our final chart again in all its glory:
 
-<div class="vis"></div>
+<div class="vis" style="overflow: auto;"></div>
 
 Hope you learned a thing or two.
 Later.
