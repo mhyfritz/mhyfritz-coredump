@@ -10,10 +10,10 @@ draft: false
 
 When it comes to visualizing algorithms, sorting is probably
 the class of algorithms people have thought about the most.
-The [Wikipedia page of insertion sort](http://en.wikipedia.org/wiki/Insertion_sort), 
+The [Wikipedia page of insertion sort](http://en.wikipedia.org/wiki/Insertion_sort),
 for example, includes three different visualizations
 at the time of writing: a
-[static vis](http://en.wikipedia.org/wiki/File:Insertionsort-edited.png) 
+[static vis](http://en.wikipedia.org/wiki/File:Insertionsort-edited.png)
 and two animated GIFs, using
 [boxes](http://en.wikipedia.org/wiki/File:Insertion-sort-example-300px.gif)
 and [bars](http://en.wikipedia.org/wiki/File:Insertion_sort.gif).
@@ -28,15 +28,15 @@ Animations, on the other hand, are arguably more fun and engaging
 and as the algorithm unfolds in front of one's eyes in real-time,
 it can aid
 understanding the individual, low level steps and thus make
-implementing the algorithm easier. 
+implementing the algorithm easier.
 
 Due to the nature of insertion sort (sequential, in-place swap operations),
 I think an animated bar chart is actually quite appropriate. However,
 I have several issues with the Wikipedia animation, in particular:
 
-* there are too many elements being displayed (30 at the time of writing)
-* the animation is too quick
-* it is not obvious which element is the active one
+- there are too many elements being displayed (30 at the time of writing)
+- the animation is too quick
+- it is not obvious which element is the active one
 
 Additionally, from an educational perspective, it would be
 great to make the visualization customizable.
@@ -50,14 +50,14 @@ is a pre-sorted array. For insertion sort, a pre-sorted array
 leads to best case execution time and a reverse sorted
 array to worst case behavior.
 
-Coming back to Wikipedia's animation, of course 
+Coming back to Wikipedia's animation, of course
 there is a technical limitation due to the GIFs being used.
 It would actually be pretty amazing if one could include small, embedded,
 interactive JavaScript applications on Wikipedia pages.
 I do hope that this will be possible in the near future.
 
 Anyhow, so I thought that an interactive, customizable
-app would be neat that would mitigate the issues outlined above. 
+app would be neat that would mitigate the issues outlined above.
 In addition, this would also allow parameterizing
 the speed of the animation which is quite important as well.
 Below is such an app I put together with the help of
@@ -74,12 +74,12 @@ It would actually be awesome to show the pseudo code as well
 and to visually highlight the lines that are being executed.
 
 Also, I'll probably
-extend this post soon or write a separate, follow-up post explaining the 
+extend this post soon or write a separate, follow-up post explaining the
 D3.js implementation. For the time being though, let's leave things
 at this and if you're interested, grab the code in its current form from
 [github](https://github.com/mhyfritz/interactive-insertion-sort). TTFN!
 
-<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <link href="/css/insertion-sort-d3.css" rel="stylesheet">
 <script src="/js/insertion-sort-d3.js"></script>
